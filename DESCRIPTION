@@ -1,0 +1,21 @@
+Package: censGWAS
+Title: GWAS for Censored Phenotype Measurements with Linear-Tobit Scheme
+Version: 0.0.0
+Authors@R: 
+    c(person("Yaqi Alexandra", "Deng", , email="yaqi.deng@igp.uu.se", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0006-2947-2433")),
+    person("Åsa", "Johansson", , email="asa.johansson@igp.uu.se", role = c("aut")),
+    person("Torgny", "Karlsson", , email="torgny.karlsson@igp.uu.se", role = c("aut")),
+    person("Marcin", "Kierczak", , email="marcin.kierczak@icm.uu.se", role = c("ctb")))
+Description: This package facilitates the Linear-Tobit Scheme for GWAS analyses on censored phenotype measurements, where the measurements below certain value, i.e., limit of detection (LOD), are censored. Based on our study where the linear model and Type-I Tobit model, a special regression method designated for censored dependent variables have comparably high sensitivity, with the latter being more accurate and robust against different censored levels, we create this package that incorporates the first step, GWAS using the linear model, an intermediate step, clumping of GWAS outcomes, and the second step, refining the selected SNPs by the Tobit model. For both runs, we implemented their corresponding data preprocessing methods, i.e., inverse normal rank-based transformation with tied values set differently, to enhance normality and better reflect the data structure. Thus, the users can directly provide the unprocessed measurements, either truncated or censored, along with the genotype and covariate data, to run a complete Linear-Tobit pipeline. However, PLINK2 is the implemented tool for GWAS here, which does not account for genetic relatedness. In the cases where related individuals are included or mitigation of genetic relatedness is preferred, the user can run the first step, linear model, with external tools, such as SAIGE and REGENIE, and provide the GWAS results. The package then performs clumping and refines the clumped SNPs. Alternatively, the user uses tools other then PLINK2 to obtain certain SNPs for further refinement, a list containing the SNPs' information - Chromosome Number, SNP ID, and effect allele, can be provided for the package to generate refined estimates. The rapid screening with linear model ensures a high detection power of the associative SNPs, and the refinement largely alleviates the impact of biased data distribution in effect size estimates. Together these promote subsequent analyses (Mendelian Randomization, polygenic risk score construction, neural network design, etc.) with higher precision.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    censReg,
+    broom,
+    RNOmni
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
