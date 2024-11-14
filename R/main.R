@@ -33,7 +33,7 @@
 #' @param clump_p2 OPTIONAL. The SP2 column p-value threshold for clumping. Default is 1e-4.
 #' @param clump_r2 OPTIONAL. The r^2 (correlation between genetic variants to reduce redundancy) threshold for clumping. Default is 0.1.
 #' @param clump_kb OPTIONAL. The maximum distance from the lead variant for SNPs to be considered to be clumped with. Default is 1000.
-#' @param file_snps_chosen OPTIONAL.A string representing the file listing the chosen SNPs in one column, if user directly wants to test certain SNPs.
+#' @param file_snps_chosen OPTIONAL.A string representing the file listing the chosen SNPs with the three columns (Chr., ID, Allele), if user directly wants to test certain SNPs.
 #' @param output_name OPTIONAL. A string of the name for the output file, can be the group name or chromosome number.
 #' Default is "out". The corresponding suffices will be added automatically by the program or PLINK2.
 #' @param delete_unconverted OPTIONAL. Boolean (TRUE or FALSE) to indicate whether remove the extracted but not converted intermediate genotype files or not.

@@ -9,7 +9,7 @@
 #' with 1st column including the chromosome numbers (integer 1~22, string 'X', 'XY'),
 #' 2nd column for the SNP IDs (string of rsid),
 #' and 3rd column for the effect alleles (character 'A', 'T', 'G', 'C').
-#' @param participants REQUIRED. A string representing the file for the IIDs, listed in a column, of the participants to extract.
+#' @param participants REQUIRED. A string representing the file for the FID and IID, listed in two columns, of the participants to extract.
 #' @param file_calls REQUIRED. A string representing the genotype call file, ending with .pgen or .bed.
 #' @param file_variant_info REQUIRED. A string representing the variant information files, ending with .pvar or .bim.
 #' @param file_sample_info REQUIRED. A string representing the sample information file, ending with .psam or .fam.
@@ -161,12 +161,12 @@ check_snp_list <- function(snp_df){
 
   # tidy some format
   colnames(snp_df) <- c("chr", "ID", "A1")
-  valid_chr <- !is.na(snp_df$chr) & snp_df$chr %in% as.character(c(1:22, 'X', 'XY', 'x', 'xy', 'Y', 'y'))
+  valid_chr <- !is.na(snp_df$chr) & snp_df$chr %in% as.character(c(1:23, 'X', 'XY', 'x', 'xy', 'Y', 'y'))
   snp_df$A1 <- toupper(snp_df$A1)
 
   # check if the data type of each column is correct
   if (!all(valid_chr)){
-    warning("Error: The chromosome no. in the SNP list must be 1~22, X, XY (case insensitive), and non-missing.")
+    warning("Error: The chromosome no. in the SNP list must be 1~23, X, XY (case insensitive), and non-missing.")
     return(NULL)
   }
   if (!all(!is.na(snp_df$A1) & snp_df$A1 %in% c("A", "C", "G", "T"))){
