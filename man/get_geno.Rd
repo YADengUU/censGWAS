@@ -21,7 +21,7 @@ with 1st column including the chromosome numbers (integer 1~22, string 'X', 'XY'
 2nd column for the SNP IDs (string of rsid),
 and 3rd column for the effect alleles (character 'A', 'T', 'G', 'C').}
 
-\item{participants}{REQUIRED. A string representing the file for the IIDs, listed in a column, of the participants to extract.}
+\item{participants}{REQUIRED. A string representing the file for the FID and IID, listed in two columns, of the participants to extract.}
 
 \item{file_calls}{REQUIRED. A string representing the genotype call file, ending with .pgen or .bed.}
 

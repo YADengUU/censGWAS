@@ -59,7 +59,7 @@ censGWAS(
 
 \item{file_covar}{REQUIRED. A string of the path to the covariate file (tab- or space-separated) containing the FID, IID, and covariate columns.}
 
-\item{participants}{OPTIONAL. A string of the file including the list of participant FIDs and IIDs, organized in 2 column, with header 'FID', 'IID' (no quote).}
+\item{participants}{REQUIRED. A string of the file including the list of participant FIDs and IIDs, organized in 2 column, with header 'FID', 'IID' (no quote).}
 
 \item{gwas_thres_hwe}{OPTIONAL. Threshold for Hardy-Weignberg equilibrium, default is 1e-20.}
 
@@ -67,7 +67,7 @@ censGWAS(
 
 \item{gwas_thres_geno}{OPTIONAL. Threshold of missing call rates for filtering out variants. Default is 0.05.}
 
-\item{gwas_ci}{OPTIONAL. Confidence intervals with the given width to be reported for each beta or odds-ratio. Default is 0.95.}
+\item{gwas_ci}{OPTIONAL. Confidence intervals with the given width to be reported for each beta. Default is 0.95.}
 
 \item{gwas_results}{OPTIONAL. A string of the file including GWAS outcomes, if already performed by the user.}
 
@@ -93,7 +93,7 @@ censGWAS(
 
 \item{clump_kb}{OPTIONAL. The maximum distance from the lead variant for SNPs to be considered to be clumped with. Default is 1000.}
 
-\item{file_snps_chosen}{OPTIONAL.A string representing the file listing the chosen SNPs in one column, if user directly wants to test certain SNPs.}
+\item{file_snps_chosen}{OPTIONAL.A string representing the file listing the chosen SNPs with the three columns (Chr., ID, Allele), if user directly wants to test certain SNPs.}
 
 \item{output_name}{OPTIONAL. A string of the name for the output file, can be the group name or chromosome number.
 Default is "out". The corresponding suffices will be added automatically by the program or PLINK2.}

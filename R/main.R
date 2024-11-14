@@ -16,11 +16,11 @@
 #' @param fam OPTIONAL. A string representing the sample information file, ending with .fam.
 #' @param file_pheno REQUIRED.A string of the path to the phenotype file (tab- or space-separated) containing the FID, IID, and censored status (0 for below /1 for above LOD), measurements.
 #' @param file_covar REQUIRED. A string of the path to the covariate file (tab- or space-separated) containing the FID, IID, and covariate columns.
-#' @param participants OPTIONAL. A string of the file including the list of participant FIDs and IIDs, organized in 2 column, with header 'FID', 'IID' (no quote).
+#' @param participants REQUIRED. A string of the file including the list of participant FIDs and IIDs, organized in 2 column, with header 'FID', 'IID' (no quote).
 #' @param gwas_thres_hwe OPTIONAL. Threshold for Hardy-Weignberg equilibrium, default is 1e-20.
 #' @param gwas_thres_maf OPTIONAL. Threshold for MAF of the analyzed SNPs, default is 0.01.
 #' @param gwas_thres_geno OPTIONAL. Threshold of missing call rates for filtering out variants. Default is 0.05.
-#' @param gwas_ci OPTIONAL. Confidence intervals with the given width to be reported for each beta or odds-ratio. Default is 0.95.
+#' @param gwas_ci OPTIONAL. Confidence intervals with the given width to be reported for each beta. Default is 0.95.
 #' @param gwas_results OPTIONAL. A string of the file including GWAS outcomes, if already performed by the user.
 #' @param snp_id_field OPTIONAL. The field (column) name in the GWAS result files that contains the SNP IDs, default is 'ID'.
 #' @param p_field OPTIONAL. The field (column) name in the GWAS result files that contains the p-values, default is 'P'.
