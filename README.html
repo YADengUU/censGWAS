@@ -445,6 +445,11 @@ be customized with the parameters <code>gwas_thres_hwe</code>,
 <code>gwas_thres_maf</code>, <code>gwas_thres_geno</code>, and
 <code>gwas_ci</code>. For example, you can add
 <code>gwas_thres_maf = 0.001</code>, <code>gwas_ci = 0.9</code>.</p>
+<p>Sometime PLINK2 terminates with the warning of covariate scales
+varying to widely for numerical stability and requests to standardize
+the numerical covariates. You may choose to include this step by
+including the flag <code>standardize_covariates = TRUE</code> when using
+censGWAS().</p>
 <div id="already-performed-gwas-need-clumping-and-refinement" class="section level3">
 <h3>Already performed GWAS, need clumping and refinement</h3>
 <p>If GWAS was already performed, you can directly provide the GWAS
@@ -477,18 +482,109 @@ between genetic variants <span class="math inline">\(r^2=0.1\)</span>,
 the maximum distance from the lead variant for SNPs <span class="math inline">\(kb=1000\)</span>. These could be customized with
 <code>clump_p1</code>, <code>clump_p2</code>, <code>clump_r2</code>, and
 <code>clump_kb</code>: for example, adding the flag
-<code>clump_kb=250</code>.</p>
+<code>clump_kb=250</code> to <code>censGWAS()</code> in the usage
+above.</p>
+</div>
+<div id="have-specific-snps-chosen-only-need-refinement" class="section level3">
+<h3>Have specific SNPs chosen, only need refinement</h3>
+<p>If you have also conducted your own clumping, or simply have specific
+SNPs of interest, you can organize them into one plaintext file and
+provide it through the parameter <code>file_snps_chosen</code>. In this
+case, you do not need to provide the GWAS results (but genotype files
+and phenotype/covariates are still required), and the package will start
+from the refinement procedure.</p>
+<pre class="r"><code>library(censGWAS)
+
+censGWAS(pfile = &quot;chr1&quot;,
+         file_pheno = &quot;phenotypes.txt&quot;,
+         file_covar = &quot;covariates.txt&quot;,
+         participants = &quot;participants.txt&quot;,
+         file_snps_chosen = &quot;chr1_snps.chosen&quot;)</code></pre>
+<p>The final result of the package is the refined estimates (along with
+the standard error and p-values) organized in one file, by default the
+output will be named “out.refine”. You can customize the output name for
+better clarity, e.g., <code>output_name = &quot;groupA_chr1&quot;</code>, the
+suffix will be added automatically.</p>
+<p>In (perhaps rare) case that the memory space is scarce and you
+realize that the extracted but unconverted genotype files occupy
+unwanted space, you may choose to delete them as the subsequent
+refinement calculations won’t need the unconverted files by having the
+flag <code>delete_unconverted = TRUE</code>.</p>
 </div>
 </div>
-<div id="references" class="section level2">
-<h2>References</h2>
+<div id="input-file-formatting" class="section level2">
+<h2>Input file formatting</h2>
+<p>To ensure the package runs smoothly, the input files should be in
+space- or tab-delimited formats as described below.</p>
+<div id="phenotype-file" class="section level3">
+<h3>Phenotype file</h3>
+<p>The phenotype data should be organized in 4 columns: FID and IID of
+participants, censored status (1 if above LOD, 0 otherwise), and the
+measurements. The package detects whether the measurements are truncated
+(<code>NA</code> for those below LOD) or censored (already assigned
+those below LOD with the LOD value); if they are truncated, the package
+modifies them to be censored.</p>
 <ul>
-<li>Henningsen A (2024). censReg: Censored Regression (Tobit) Models. R
-package version 0.5-39, <a href="https://r-forge.r-project.org/projects/sampleselection" class="uri">https://r-forge.r-project.org/projects/sampleselection</a>.</li>
-<li>Chang CC, Chow CC, Tellier LCAM, Vattikuti S, Purcell SM, Lee JJ
-(2015). Second-generation PLINK: rising to the challenge of larger and
-richer datasets. GigaScience, 4.</li>
+<li>Truncated</li>
 </ul>
+<pre class="plaintext"><code>FID IID cens_status measurements
+123 101 1 3.8
+121 100 1 3.9
+119 103 0 NA</code></pre>
+<ul>
+<li>Censored</li>
+</ul>
+<pre class="plaintext"><code>FID IID cens_status measurements
+123 101 1 3.8
+121 100 1 3.9
+119 103 0 3.0</code></pre>
+<p>In the preprocessing step, the package performs inverse normal
+rank-based transformation for the censored values, implemented by
+<code>RNOmni</code> (<a href="https://cran.r-project.org/web/packages/RNOmni/RNOmni.pdf">McCaw
+2022</a>). The modified phenotype file will be stored in your output
+directory.</p>
+</div>
+<div id="covariate-file" class="section level3">
+<h3>Covariate file</h3>
+<p>Like the phenotypes, the covariates are also organized as columns
+after the first two columns with the FID and IID. For example:</p>
+<pre class="plaintext"><code>FID IID age smoking
+123 101 39 never
+121 100 32 occasional
+119 103 46 previous</code></pre>
+</div>
+<div id="participant-list" class="section level3">
+<h3>Participant list</h3>
+<p>This is just the file with two columns - FID and IID - of the
+participants selected for your study. The package checks whether they
+are included in the phenotype/covariate files and generated the updated
+list after preprocessing step in which only the ones with complete cases
+will be forwarded.</p>
+<pre class="plaintext"><code>FID IID
+123 101
+121 100
+119 103</code></pre>
+</div>
+<div id="snps-chosen" class="section level3">
+<h3>SNPs chosen</h3>
+<p>In the case that you already have chosen the SNPs for refining the
+estimates, you can organize them in three columns including the
+chromosome number, SNP ID, and the effect allele:</p>
+<pre class="plaintext"><code>chr ID  A1
+1 rs123 G
+1 rs101 A
+1 rs111 T</code></pre>
+<p>The package checks if your list is empty, if it is not correctly
+formulized in three columns, if the chromosome numbers are correct
+(1~23, X/XY/Y, case insensitive), and if your nucleotide bases are
+correct (A, T, G, C) before extracting the desired genotype information.
+## References - Henningsen A (2024). censReg: Censored Regression
+(Tobit) Models. R package version 0.5-39, <a href="https://r-forge.r-project.org/projects/sampleselection" class="uri">https://r-forge.r-project.org/projects/sampleselection</a>.
+- Chang CC, Chow CC, Tellier LCAM, Vattikuti S, Purcell SM, Lee JJ
+(2015). Second-generation PLINK: rising to the challenge of larger and
+richer datasets. GigaScience, 4. - McCaw Z (2024). RNOmni: Rank Normal
+Transformation Omnibus Test. R package version 1.0.1.3, <a href="https://github.com/zrmacc/rnomni" class="uri">https://github.com/zrmacc/rnomni</a>.</p>
+</div>
 </div>
 </div>
 

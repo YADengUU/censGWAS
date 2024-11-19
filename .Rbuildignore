@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^censGWAS\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
