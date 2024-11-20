@@ -28,7 +28,7 @@ jobs:
           sudo apt install libcurl4-openssl-dev libxml2-dev
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck", "testthat", "RNOmni", "broom", "censReg")
+          install.packages(c("remotes", "rcmdcheck", "testthat", "RNOmni", "broom", "censReg"))
         shell: Rscript {0}
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args='--no-manual', error_on='error', check_dir='check')"
