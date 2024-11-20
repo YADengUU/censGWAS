@@ -30,6 +30,7 @@ simulate_data <- function(cens_prop, betas, mafs, N, to_truncate){
 
   # make a dummy list of the SNPs
   snps <- data.frame(CHR = rep(1, length(mafs)), ID = sub("_.*", "", colnames(genotype_data)[7:ncol(genotype_data)]), A1 = sub(".*_", "", colnames(genotype_data)[7:ncol(genotype_data)]))
+  print(colnames(genotype_data))
   write.table(snps, file = "snps.chosen", quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 
 }
@@ -63,7 +64,7 @@ simulate_HWE_geno <- function (FIDs, IIDs, mafs, N){
     colnames(genotypes)[ncol(genotypes)] <- paste0("rs", sample(100:10000, size = 1), "_", sample(c("A", "T", "G", "C"), size = 1))
 
   }
-  print(genotypes)
+
   return(genotypes)
 }
 
