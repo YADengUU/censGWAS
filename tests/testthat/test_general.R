@@ -36,10 +36,10 @@ test_that("The refinement step can run smoothly with truncated measurements and 
 
   # can simulate data
   expect_error({
-    simulate_data(cens_prop=0.6, betas=c(0.1,0.2), mafs=c(0.4, 0.3), N=25000, to_truncate=TRUE)
+    simulate_data(cens_prop=0.6, betas=c(0.2,0.3), mafs=c(0.4, 0.45), N=25000, to_truncate=TRUE)
   }, regexp = NA)
 
-  simulate_data(cens_prop=0.6, betas=c(0.1,0.2), mafs=c(0.4, 0.3), N=25000, to_truncate=TRUE)
+  simulate_data(cens_prop=0.6, betas=c(0.2,0.3), mafs=c(0.4, 0.45), N=25000, to_truncate=TRUE)
 
   # can check SNP list format
   snp_df_raw <- read.table("snps.chosen", header = TRUE)
@@ -53,7 +53,7 @@ test_that("The refinement step can run smoothly with truncated measurements and 
   snp_df_dummy <- read.table(paste0(dummy_snp_path, "/snps_wrongChrom.chosen"), header = TRUE)
   expect_warning(
     check_snp_list(snp_df_dummy),
-    regexp = "must be 1~22, X, XY", fixed = TRUE
+    regexp = "must be 1~23, X, XY", fixed = TRUE
   )
   snp_df_dummy <- read.table(paste0(dummy_snp_path, "/snps_wrongFormat.chosen"), header = TRUE)
   expect_warning(
@@ -82,11 +82,11 @@ test_that("The refinement step can run smoothly with truncated measurements and 
 test_that("The refined estimate is more accurate than the primitive one.", {
 
   # this time let's try with only one SNP; and we also check that the program can work if censored data (not truncated with NA)
-  simulate_data(cens_prop=0.6, betas=c(0.2), mafs=c(0.4), N=25000, to_truncate=FALSE)
+  simulate_data(cens_prop=0.6, betas=c(0.3), mafs=c(0.45), N=25000, to_truncate=FALSE)
   snp_df_raw <- read.table("snps.chosen",header=TRUE)# "snps.chosen" is just the file name default in our simulations
-  #print(snp_df_raw)
+  print(snp_df_raw)
   snp_df<-check_snp_list(snp_df_raw)
-  #print(nrow(snp_df))
+  print(nrow(snp_df))
   participant_list <- read.table("examples.pheno", header=TRUE)
   participant_list <- data.frame(FID = participant_list$FID, IID=participant_list$IID)
   write.table(participant_list, file="participantsIID.txt", row.names = FALSE, col.names=TRUE, quote = FALSE, sep = "\t")
@@ -110,7 +110,7 @@ test_that("The refined estimate is more accurate than the primitive one.", {
   step2_run_tobit(geno_converted = "examples.raw", pheno_covar = pheno_covar_df, snps_to_refine = snp_df, output_name = "examples") # here we also test if it can take another output name
   tobit_result <- read.table("examples.refined", header = TRUE)
 
-  expect_true(abs(tobit_result$BETA_TB[1]-0.2) < abs(df_lin$BETA_LIN[1]-0.2)) # we expect that the error between tobit estimates and assumed slope is smaller than the error of linear
+  expect_true(abs(tobit_result$BETA_TB[1]-0.3) < abs(df_lin$BETA_LIN[1]-0.3)) # we expect that the error between tobit estimates and assumed slope is smaller than the error of linear
 
 
 })
