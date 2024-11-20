@@ -2,5 +2,11 @@
 .Rhistory
 .RData
 
-# Ignore renv
-renv/
+# Ignore library directory
+renv/library/
+
+# Keep the lockfile
+!renv.lock
+
+# Keep the activate.R file
+!renv/activate.R
