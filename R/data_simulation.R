@@ -49,7 +49,7 @@ simulate_HWE_geno <- function (FIDs, IIDs, mafs, N){
   PAT <- 2000 + FIDs # just dummy place-holders for matching .raw format, will be deleted in step2
   MAT <- 5000 + FIDs
   SEX <- sample(c(0,1), size = N, replace = TRUE)
-  PHENOTYPE <- rnorm(N) # just dummy place-holder, won't be the same as in simulate_phenotype()
+  PHENOTYPE <- 1 # just dummy place-holder, won't be the same as in simulate_phenotype()
 
   genotypes <- data.frame(FID = FIDs, IID = IIDs, PAT = PAT, MAT = MAT, SEX = SEX, PHENOTYPE = PHENOTYPE)
 
@@ -63,6 +63,7 @@ simulate_HWE_geno <- function (FIDs, IIDs, mafs, N){
     colnames(genotypes)[ncol(genotypes)] <- paste0("rs", sample(100:10000, size = 1), "_", sample(c("A", "T", "G", "C"), size = 1))
 
   }
+  print(genotypes)
   return(genotypes)
 }
 
