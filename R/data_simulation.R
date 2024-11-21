@@ -29,7 +29,7 @@ simulate_data <- function(cens_prop, betas, mafs, N, to_truncate){
   write.table(phenotypes, file = "examples.pheno", quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 
   # make a dummy list of the SNPs
-  snps <- data.frame(CHR = rep(1, length(mafs)), ID = sub("_.*", "", colnames(genotype_data)[7:ncol(genotype_data)]), A1 = sub(".*_", "", colnames(genotype_data)[7:ncol(genotype_data)]))
+  snps <- data.frame(CHR = rep(1, length(mafs)), ID = sub("_.*", "", colnames(genotype_data)[7:ncol(genotype_data)]), A1 = as.character(sub(".*_", "", colnames(genotype_data)[7:ncol(genotype_data)])))
   print(colnames(genotype_data))
   write.table(snps, file = "snps.chosen", quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 
