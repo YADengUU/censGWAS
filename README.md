@@ -136,6 +136,21 @@ chr ID  A1
 1 rs111 T
 ```
 The package checks if your list is empty, if it is not correctly formulized in three columns, if the chromosome numbers are correct (1~23, X/XY/Y, case insensitive), and if your nucleotide bases are correct (A, T, G, C) before extracting the desired genotype information.
+
+## Using the Container
+We provide a Docker container which could be retrieved by:
+```bash
+docker pull ghcr.io/yadenguu/censgwas:v0.1.0
+```
+Then, start the container:
+```bash
+docker run -it ghcr.io/yadenguu/censgwas:v0.1.0 /bin/bash
+```
+or run R directly from the shell:
+```bash
+docker run -it ghcr.io/yadenguu/censgwas:v0.1.0 R
+```
+
 ## References
 - Henningsen A (2024). censReg: Censored Regression (Tobit) Models. R package version 0.5-39, https://r-forge.r-project.org/projects/sampleselection.
 - Chang CC, Chow CC, Tellier LCAM, Vattikuti S, Purcell SM, Lee JJ (2015). Second-generation PLINK: rising to the challenge of larger and richer datasets. GigaScience, 4.
