@@ -1,6 +1,6 @@
 Package: censGWAS
 Title: GWAS for Censored Phenotype Measurements with Linear-Tobit Scheme
-Version: 0.0.0
+Version: 0.1.0
 Authors@R: 
     c(person("Yaqi Alexandra", "Deng", , email="yaqi.deng@igp.uu.se", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0006-2947-2433")),
