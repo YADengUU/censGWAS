@@ -142,15 +142,22 @@ We provide a Docker container which could be retrieved by:
 ```bash
 docker pull ghcr.io/yadenguu/censgwas:v0.1.0
 ```
-Then, start the container:
-```bash
-docker run -it ghcr.io/yadenguu/censgwas:v0.1.0 /bin/bash
-```
-or run R directly from the shell:
+Then, start the container with an interactive R session
 ```bash
 docker run -it ghcr.io/yadenguu/censgwas:v0.1.0 R
 ```
-
+Alternatively, when the analyses are too heavy to run interactively, you could bind mount the script (`run_your_censgwas.R`, composed similarly as examples provided above) and run it with the Docker container:
+```bash
+docker run -v $(pwd):/workdir -w /workdir ghcr.io/yadenguu/censgwas:v0.1.0 Rscript run_your_censgwas.R
+```
+In the case where your HPC server handles sensitive data and unable to connect to the public networks and use Docker, such as the UPPMAX Bianca server, you may build the Singularity container:
+```bash
+singularity pull censgwas.sif docker:://ghcr.io/yadenguu/censgwas:v0.1.0
+```
+followed by
+```bash
+singularity exec --bind $(pwd):/workdir censgwas.sif Rscript run_your_censgwas.R
+```
 ## References
 - Henningsen A (2024). censReg: Censored Regression (Tobit) Models. R package version 0.5-39, https://r-forge.r-project.org/projects/sampleselection.
 - Chang CC, Chow CC, Tellier LCAM, Vattikuti S, Purcell SM, Lee JJ (2015). Second-generation PLINK: rising to the challenge of larger and richer datasets. GigaScience, 4.
