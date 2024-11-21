@@ -42,7 +42,7 @@ test_that("The refinement step can run smoothly with truncated measurements and 
   simulate_data(cens_prop=0.6, betas=c(0.2,0.3), mafs=c(0.4, 0.45), N=25000, to_truncate=TRUE)
 
   # can check SNP list format
-  snp_df_raw <- read.table("snps.chosen", header = TRUE)
+  snp_df_raw <- read.table("snps.chosen", header = TRUE,colClasses = "character")
   expect_error({
     check_snp_list(snp_df_raw)
   }, regexp = NA)
@@ -83,7 +83,7 @@ test_that("The refined estimate is more accurate than the primitive one.", {
 
   # this time let's try with only one SNP; and we also check that the program can work if censored data (not truncated with NA)
   simulate_data(cens_prop=0.6, betas=c(0.3), mafs=c(0.45), N=25000, to_truncate=FALSE)
-  snp_df_raw <- read.table("snps.chosen",header=TRUE)# "snps.chosen" is just the file name default in our simulations
+  snp_df_raw <- read.table("snps.chosen",header=TRUE,colClasses = "character")# "snps.chosen" is just the file name default in our simulations
   print(snp_df_raw)
   snp_df<-check_snp_list(snp_df_raw)
   print(nrow(snp_df))

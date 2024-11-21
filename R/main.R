@@ -195,7 +195,7 @@ censGWAS <- function(pfile = NULL, bfile = NULL, pgen = NULL, pvar = NULL, psam 
     snps_to_refine <- clumped_snps# this is for the output df that will be concatenated with the refined results
   } else{
     # if the file of selected snps are provided (do not need clumping), we need to check if it is empty and if there are other problems
-    snp_df <- read.table(file_snps_chosen, header = TRUE)
+    snp_df <- read.table(file_snps_chosen, header = TRUE, ,colClasses = "character")
 
     if (!nrow(snp_df) > 0){
       warning("Error: The list of SNPs is empty.")
